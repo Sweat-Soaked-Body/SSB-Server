@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.db import transaction
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -30,9 +31,14 @@ class SigninView(APIView):
 class SignupView(APIView):
     authentication_classes = []
 
+    @transaction.atomic
     def post(self, request: object) -> Response:
         serializer = UserModelSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        if len(serializer.validated_data['password']) <= 4:
+            return Response({"error": "Password too short"}, status=status.HTTP_400_BAD_REQUEST)
+
         User.objects.create_user(
             username=serializer.validated_data['username'],
             email=serializer.validated_data['email'],
