@@ -37,7 +37,7 @@ jobs:
         title: Ci Success!
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         status: ${{ job.status }}
-        color: 008000
+        color: 0059FF
         username: GitHub
         url: https://github.com/Sweat-Soaked-Body/SSB-Server
 
