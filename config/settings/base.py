@@ -67,7 +67,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
-    'SIGNING_KEY': os.environ.get('SECRET_KEY'),
+    'SIGNING_KEY': str(os.environ.get('SECRET_KEY')),
     'ALGORITHM': 'HS256',
     'BLACKLIST_AFTER_ROTATION': True,
     'BLACKLIST_TOKEN_CHECKS': ('access',),
