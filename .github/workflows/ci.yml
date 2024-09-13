@@ -28,7 +28,7 @@ jobs:
         poetry install
     - name: Run Tests
       run: |
-        poetry run python manage.py test --settings=config.settings.base
+        poetry run python manage.py test --settings=config.settings.test
 
     - name: CI Fail
       uses: sarisia/actions-status-discord@v1
