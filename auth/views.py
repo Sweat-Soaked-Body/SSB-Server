@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django.contrib.auth.hashers import check_password
 from django.db import transaction
+from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiResponse, OpenApiParameter
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -16,6 +17,12 @@ from config.util.authentication.CookieJWTAuthentication import CookieJWTAuthenti
 
 
 # Create your views here.
+@extend_schema_view(
+    post=extend_schema(
+        summary='Signin API',
+        description='access 토큰이 쿠키로 발급 됩니다.',
+        request=SigninSerializer
+    ))
 class SigninView(APIView):
     authentication_classes = []
 
@@ -39,6 +46,11 @@ class SigninView(APIView):
         return response
 
 
+@extend_schema_view(
+    post=extend_schema(
+        summary='Signup API',
+        request=SignupSerializer
+    ))
 class SignupView(APIView):
     authentication_classes = []
 
@@ -50,6 +62,10 @@ class SignupView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
+@extend_schema_view(
+    post=extend_schema(
+        summary='Logout API',
+    ))
 class LogoutView(APIView):
     authentication_classes = [CookieJWTAuthentication,]
     permission_classes = [IsAuthenticated]
