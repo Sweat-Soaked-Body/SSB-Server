@@ -10,8 +10,7 @@ RUN pip install poetry
 
 RUN poetry install --no-root
 
-EXPOSE 8000
+ARG DJANGO_SETTINGS_MODULE
 
-ENV DJANGO_SETTINGS_MODULE=config.settings.base
-
-CMD ["poetry", "run", "gunicorn", "--bind", "0:8000", "config.wsgi:application"]
+CMD ["poetry", "run", "python3", "manage.py", "makemigrations"]
+CMD ["poetry", "run", "python3", "manage.py", "migrate"]
