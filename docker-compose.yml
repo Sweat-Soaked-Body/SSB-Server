@@ -11,20 +11,6 @@ services:
       - prod
       - dev
 
-  prod:
-    container_name: prod
-    build:
-      dockerfile: Dockerfile
-      context: .
-    environment:
-      - DJANGO_SETTINGS_MODULE=config.settings.prod
-      - DEBUG=False
-    volumes:
-      - /tmp:/tmp
-    env_file:
-      - prod.env
-    command: ["poetry", "run", "gunicorn", "--bind", "127.0.0.1:8001", "config.wsgi:application"]
-
   dev:
     container_name: dev
     build:
@@ -37,4 +23,18 @@ services:
       - /tmp:/tmp
     env_file:
       - dev.env
+    command: [ "poetry", "run", "gunicorn", "--bind", "127.0.0.1:8001", "config.wsgi:application" ]
+
+  prod:
+    container_name: prod
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.prod
+      - DEBUG=False
+    volumes:
+      - /tmp:/tmp
+    env_file:
+      - prod.env
     command: ["poetry", "run", "gunicorn", "--bind", "127.0.0.1:8002", "config.wsgi:application"]
