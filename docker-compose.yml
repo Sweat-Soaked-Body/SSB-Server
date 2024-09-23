@@ -21,8 +21,6 @@ services:
     env_file:
       - .env
     command: ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8001", "config.wsgi:application" ]
-    depends_on:
-      - postgres
 
   prod:
     container_name: prod
@@ -34,5 +32,3 @@ services:
     env_file:
       - .env
     command: ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8002", "config.wsgi:application"]
-    depends_on:
-      - postgres
