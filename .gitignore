@@ -380,5 +380,3 @@ pyrightconfig.json
 
 db*
 *.env
-
-*/migrations/
