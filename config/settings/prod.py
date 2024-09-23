@@ -1,3 +1,12 @@
 from .base import *
 
-environ.Env.read_env(os.path.join(BASE_DIR, 'prod.env'))
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'host': '127.0.0.1',
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'PORT': 5432,
+    }
+}

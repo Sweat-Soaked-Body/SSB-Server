@@ -18,12 +18,11 @@ services:
       context: .
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.base
-      - DEBUG=False
-    volumes:
-      - /tmp:/tmp
     env_file:
-      - dev.env
-    command: [ "poetry", "run", "gunicorn", "--bind", "0.0.0.0:8001", "config.wsgi:application" ]
+      - .env
+    command: ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8001", "config.wsgi:application" ]
+    depends_on:
+      - postgres
 
   prod:
     container_name: prod
@@ -32,9 +31,8 @@ services:
       context: .
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.prod
-      - DEBUG=False
-    volumes:
-      - /tmp:/tmp
     env_file:
-      - prod.env
+      - .env
     command: ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8002", "config.wsgi:application"]
+    depends_on:
+      - postgres
