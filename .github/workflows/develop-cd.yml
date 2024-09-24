@@ -5,7 +5,7 @@ on:
     branches: [ "*" ]
 
 jobs:
-  needs: [ build, analyze ]
+  needs: [ build ]
   deploy:
     runs-on: ubuntu-latest
     steps:
