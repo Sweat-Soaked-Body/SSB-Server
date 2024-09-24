@@ -17,4 +17,5 @@ jobs:
           script: |
             cd ~/SSB-Server
             git pull origin develop
+            docker-compose down
             docker-compose up -d
