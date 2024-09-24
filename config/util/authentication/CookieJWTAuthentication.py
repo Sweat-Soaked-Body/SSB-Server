@@ -1,7 +1,7 @@
 from rest_framework.authentication import BaseAuthentication
 import jwt
 
-from user.models import User
+from src.app.user.models import User
 from rest_framework.exceptions import AuthenticationFailed
 
 
