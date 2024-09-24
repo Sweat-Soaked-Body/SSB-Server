@@ -1,11 +1,11 @@
-name: develop-cd
+name: Develop CD
 
 on:
   push:
     branches: [ "*" ]
 
 jobs:
-  needs: [ build ]
+  needs: [ "build" ]
   deploy:
     runs-on: ubuntu-latest
     steps:
