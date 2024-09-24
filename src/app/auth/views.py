@@ -2,16 +2,16 @@ from datetime import timedelta
 
 from django.contrib.auth.hashers import check_password
 from django.db import transaction
-from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiResponse, OpenApiParameter
+from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from config.util.exception.CustomException import CustomException
-from auth.serializers import SigninSerializer, SignupSerializer
+from src.app.auth.serializers import SigninSerializer, SignupSerializer
 from rest_framework.permissions import IsAuthenticated
-from user.models import User
+from src.app.user.models import User
 
 from config.util.authentication.CookieJWTAuthentication import CookieJWTAuthentication
 
