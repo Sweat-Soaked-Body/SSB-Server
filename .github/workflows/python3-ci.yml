@@ -20,7 +20,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Move dir
-        - run: cd src
+      run: cd src
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
