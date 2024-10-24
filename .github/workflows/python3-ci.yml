@@ -25,5 +25,7 @@ jobs:
         pip install poetry
         poetry install
     - name: Run Tests
+      env:
+        DJANGO_SETTINGS_MODULE: core.settings
       run: |
         poetry run pytest
