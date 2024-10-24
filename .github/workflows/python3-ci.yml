@@ -2,7 +2,7 @@ name: Python3 CI
 
 on:
   push:
-    branches: [*]
+    branches: ['*']
 
 jobs:
   test:
