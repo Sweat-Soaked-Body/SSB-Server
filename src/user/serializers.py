@@ -1,9 +1,7 @@
-from datetime import timedelta
 from django.contrib.auth.hashers import check_password
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.conf import settings
 
 from user.exception import UserException
 from user.models import ServiceUser
@@ -22,17 +20,16 @@ class SigninSerializer(serializers.Serializer):
             raise UserException.UserNotFoundError
 
         token = TokenObtainPairSerializer.get_token(user)
-        token.set_exp(lifetime=settings.JWT_ACCESS_EXP)
         return token
 
 
 class ServiceUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceUser
-        fields = ('username', 'password', 'email')
+        fields = ('username', 'password')
 
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True},
         }
 
     def create(self, validated_data):
@@ -41,7 +38,6 @@ class ServiceUserSerializer(serializers.ModelSerializer):
 
         ServiceUser.objects.create_user(
             username=validated_data['username'],
-            email=validated_data['email'],
             password=validated_data['password']
         )
         return validated_data

@@ -1,5 +1,4 @@
 import pytest
-
 from test.utils import APIClient
 import django
 
