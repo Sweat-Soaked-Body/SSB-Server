@@ -1,9 +1,7 @@
-from datetime import timedelta
 from django.contrib.auth.hashers import check_password
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from django.conf import settings
 
 from user.exception import UserException
 from user.models import ServiceUser
@@ -22,7 +20,6 @@ class SigninSerializer(serializers.Serializer):
             raise UserException.UserNotFoundError
 
         token = TokenObtainPairSerializer.get_token(user)
-        token.set_exp(lifetime=settings.JWT_ACCESS_EXP)
         return token
 
 

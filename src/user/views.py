@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.request import HttpRequest
 from rest_framework import status
 from django.conf import settings
+from datetime import datetime
 
 from user.serializers import ServiceUserSerializer, SigninSerializer
 
@@ -17,7 +18,8 @@ class SigninView(APIView):
         serializer.is_valid(raise_exception=True)
         token = serializer.signin()
         response = Response(status=status.HTTP_200_OK)
-        response.set_cookie('access', str(token.access_token), expires=settings.JWT_ACCESS_EXP, httponly=True, secure=True)
+        exp = datetime.now()+settings.JWT_ACCESS_EXP
+        response.set_cookie('access', str(token.access_token), expires=exp, httponly=True, secure=True)
         return response
 
 
@@ -29,7 +31,7 @@ class SignupView(APIView):
         serializer = ServiceUserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_201_CREATED)
 
 
 class LogoutView(APIView):
