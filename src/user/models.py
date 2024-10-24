@@ -4,6 +4,8 @@ from django.db import models
 
 class ServiceUser(AbstractUser):
 
+    email = models.EmailField(null=True)
+
     class Meta:
         db_table = 'service_user'
 

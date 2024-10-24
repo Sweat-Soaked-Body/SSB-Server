@@ -26,10 +26,10 @@ class SigninSerializer(serializers.Serializer):
 class ServiceUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceUser
-        fields = ('username', 'password', 'email')
+        fields = ('username', 'password')
 
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True},
         }
 
     def create(self, validated_data):
@@ -38,7 +38,6 @@ class ServiceUserSerializer(serializers.ModelSerializer):
 
         ServiceUser.objects.create_user(
             username=validated_data['username'],
-            email=validated_data['email'],
             password=validated_data['password']
         )
         return validated_data
