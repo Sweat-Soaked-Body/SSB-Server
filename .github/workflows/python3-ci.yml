@@ -19,6 +19,8 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Move dir
+        - run: cd src
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
@@ -26,7 +28,7 @@ jobs:
         poetry install
     - name: Migration DB
       run: |
-        poetry run python src/manage.py migrate --settings=core.settings.settings-test
+        poetry run python manage.py migrate --settings=core.settings.settings-test
     - name: Run Tests
       run: |
-        poetry run pytest src
+        poetry run pytest
