@@ -38,7 +38,7 @@ jobs:
         poetry install --no-root
 
     - name: Wait for Postgres
-      run: sleep 15
+      run: sleep 60
 
     - name: Migrate Database
       working-directory: ./src
