@@ -27,8 +27,10 @@ jobs:
         pip install poetry
         poetry install
     - name: Migration DB
+      working-directory: ./src
       run: |
         poetry run python manage.py migrate --settings=core.settings.settings-test
     - name: Run Tests
+      working-directory: ./src
       run: |
         poetry run pytest
