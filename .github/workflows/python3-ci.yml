@@ -1,7 +1,7 @@
 name: Python3 CI
 
 on:
-  push:
+  pull_request:
     branches: ['*']
 
 jobs:
