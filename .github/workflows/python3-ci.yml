@@ -5,13 +5,8 @@ on:
     branches: [ "*" ]
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.13]
-
     services:
       postgres:
         image: postgres:16
@@ -21,31 +16,40 @@ jobs:
           POSTGRES_USER: ssb
         ports:
           - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.13]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Install Dependencies
-      working-directory: ./src
-      run: |
-        python -m pip install --upgrade pip
-        pip install poetry
-        poetry install --no-root
+      - name: Install Dependencies
+        working-directory: ./src
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install --no-root
 
-    - name: Wait for Postgres
-      run: sleep 60
+      - name: Migrate Database
+        working-directory: ./src
+        run: |
+          poetry run python manage.py migrate
 
-    - name: Migrate Database
-      working-directory: ./src
-      run: |
-        poetry run python manage.py migrate
-
-    - name: Run Tests
-      working-directory: ./src
-      run: |
-        poetry run pytest
+      - name: Run Tests
+        working-directory: ./src
+        run: |
+          poetry run pytest
