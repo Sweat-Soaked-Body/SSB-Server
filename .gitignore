@@ -380,3 +380,5 @@ pyrightconfig.json
 
 db*
 *.env
+
+.DS_Store
