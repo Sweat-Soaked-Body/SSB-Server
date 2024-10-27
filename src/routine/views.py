@@ -30,8 +30,7 @@ class RoutineView(APIView):
 
     @atomic
     def delete(self, request: Request, pk: int) -> Response:
-        routine = Routine.objects.filter(pk=pk, service_user=request.user).first()
-        if routine is None:
+        if not (routine:=Routine.objects.filter(pk=pk, service_user=request.user).first()):
             raise RoutineException.RoutineNotFound
         routine.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -43,8 +42,7 @@ class SetView(APIView):
 
     @atomic
     def post(self, request: Request, pk: int) -> Response:
-        routine = Routine.objects.filter(pk=pk, service_user=request.user).first()
-        if routine is None:
+        if not (routine:=Routine.objects.filter(pk=pk, service_user=request.user).first()):
             raise RoutineException.RoutineNotFound
         serializer = SetsSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -53,8 +51,7 @@ class SetView(APIView):
 
     @atomic
     def patch(self, request: Request, routine_pk: int, sets_pk: int) -> Response:
-        sets = Set.objects.filter(pk=sets_pk, routine__service_user=request.user, routine_id=routine_pk).first()
-        if sets is None:
+        if not (sets:=Set.objects.filter(pk=sets_pk, routine__service_user=request.user, routine_id=routine_pk).first()):
             raise SetsException.SetsNotFound
         serializer = PatchSetsSerializer(sets, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -63,8 +60,7 @@ class SetView(APIView):
 
     @atomic
     def delete(self, request: Request, routine_pk: int, sets_pk: int) -> Response:
-        sets = Set.objects.filter(pk=sets_pk, routine__service_user=request.user, routine_id=routine_pk).first()
-        if sets is None:
+        if not (sets:=Set.objects.filter(pk=sets_pk, routine__service_user=request.user, routine_id=routine_pk).first()):
             raise SetsException.SetsNotFound
         sets.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
