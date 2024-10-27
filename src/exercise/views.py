@@ -25,7 +25,7 @@ class ExerciseView(APIView):
 
 class CategoryView(APIView):
     authentication_classes = [CookieBasedJWTAuthentication]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
         category = Category.objects.all()
