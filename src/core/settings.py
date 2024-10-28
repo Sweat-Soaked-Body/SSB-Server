@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     # apps
     'user',
     'userprofile',
-    'exercise'
+    'exercise',
+    'routine'
 ]
 
 MIDDLEWARE = [
@@ -58,12 +59,29 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'core.authentication.CookieBasedJWTAuthentication'
+        'user.authentication.CookieBasedJWTAuthentication'
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     )
 }
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+    },
+}
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
