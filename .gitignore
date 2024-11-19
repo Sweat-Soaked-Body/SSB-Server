@@ -383,3 +383,5 @@ db*
 .env
 
 .DS_Store
+
+poetry.lock
