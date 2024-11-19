@@ -5,13 +5,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from user.authentication import CookieBasedJWTAuthentication
 from userprofile.models import ServiceUserProfile
 from userprofile.serializers import ServiceUserProfileSerializer
 
 
 class ServiceUserProfileView(APIView):
-    authentication_classes = [CookieBasedJWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
