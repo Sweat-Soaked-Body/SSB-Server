@@ -1,40 +1,22 @@
 services:
-
   nginx:
     container_name: ssb-nginx
     image: nginx:latest
     ports:
       - "80:80"
     volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - /tmp:/tmp
+      - ../nginx:/etc/nginx/conf.d
     depends_on:
-      - prod
-      - postgres
+      - web
 
   prod:
     container_name: prod
     build:
-      dockerfile: ../docker/Dockerfile
-      context: .
-    environment:
-      - DJANGO_SETTINGS_MODULE=config.settings.prod
+      dockerfile: Dockerfile
+      context: ../../
     env_file:
       - ../../.env
     command: [ "poetry", "run", "gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application" ]
-
-  postgres:
-    container_name: ssb-postgres
-    image: postgres:16
-    restart: always
-    volumes:
-      - ssb-postgres:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: ssb
-      POSTGRES_USER: ssb
-      POSTGRES_PASSWORD: ssb
-    ports:
-      - "5432:5432"
 
 volumes:
   ssb-postgres:
