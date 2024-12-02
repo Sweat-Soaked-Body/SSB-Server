@@ -4,9 +4,15 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+<<<<<<< Updated upstream
 from exercise.models import Exercise, Category
 from exercise.serializers import ExerciseSerializer, CategorySerializer
 from user.authentication import CookieBasedJWTAuthentication
+=======
+from core.authentications import CsrfExemptSessionAuthentication
+from .models import Exercise, Category
+from .serializers import ExerciseSerializer, CategorySerializer
+>>>>>>> Stashed changes
 
 
 class ExerciseView(APIView):

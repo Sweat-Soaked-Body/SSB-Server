@@ -1,5 +1,4 @@
 from django.db import models
-
 from exercise.models import Exercise
 from user.models import ServiceUser
 

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from userprofile.models import ServiceUserProfile
-from userprofile.exception import UserProfileException
+from .models import ServiceUserProfile
+from .exception import UserProfileException
 
 
 class ServiceUserProfileSerializer(serializers.ModelSerializer):

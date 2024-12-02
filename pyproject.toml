@@ -10,11 +10,15 @@ python = "^3.13"
 django = "^5.1.2"
 djangorestframework = "^3.15.2"
 psycopg2-binary = "^2.9.10"
+<<<<<<< Updated upstream
 pytest = "^8.3.3"
 pyjwt = "^2.9.0"
 pytest-django = "^4.9.0"
 djangorestframework-simplejwt = "^5.3.1"
 
+=======
+gunicorn = "^23.0.0"
+>>>>>>> Stashed changes
 
 [build-system]
 requires = ["poetry-core"]

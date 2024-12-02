@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from exercise.models import Exercise, Category
+from .models import Exercise, Category
 
 
 class ExerciseSerializer(serializers.ModelSerializer):

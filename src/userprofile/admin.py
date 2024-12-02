@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from userprofile.models import ServiceUserProfile
+from .models import ServiceUserProfile
 
 
 admin.site.register(ServiceUserProfile)

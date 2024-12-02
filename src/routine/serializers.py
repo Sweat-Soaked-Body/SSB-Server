@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from routine.models import Routine, Set
+from .models import Routine, Set
 
 
 class SetsSerializer(serializers.ModelSerializer):

@@ -7,7 +7,13 @@ from rest_framework import status
 from django.conf import settings
 from datetime import datetime
 
+<<<<<<< Updated upstream
 from user.serializers import ServiceUserSerializer, SigninSerializer
+=======
+from core.authentications import CsrfExemptSessionAuthentication
+from .exception import UserException
+from .serializers import ServiceUserSerializer, SigninSerializer
+>>>>>>> Stashed changes
 
 
 class SigninView(APIView):

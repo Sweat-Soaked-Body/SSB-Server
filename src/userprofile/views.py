@@ -5,9 +5,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+<<<<<<< Updated upstream
 from user.authentication import CookieBasedJWTAuthentication
 from userprofile.models import ServiceUserProfile
 from userprofile.serializers import ServiceUserProfileSerializer
+=======
+from .models import ServiceUserProfile
+from .serializers import ServiceUserProfileSerializer
+>>>>>>> Stashed changes
 
 
 class ServiceUserProfileView(APIView):
