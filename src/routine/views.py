@@ -5,14 +5,14 @@ from rest_framework.response import Response
 from django.db.transaction import atomic
 from rest_framework import status
 
+from core.authentications import CsrfExemptSessionAuthentication
 from routine.exception import RoutineException, SetsException
 from routine.models import Routine, Set
 from routine.serializers import RoutineSerializer, SetsSerializer, PatchSetsSerializer
-from user.authentication import CookieBasedJWTAuthentication
 
 
 class RoutineView(APIView):
-    authentication_classes = [CookieBasedJWTAuthentication]
+    authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
@@ -37,7 +37,7 @@ class RoutineView(APIView):
 
 
 class SetView(APIView):
-    authentication_classes = [CookieBasedJWTAuthentication]
+    authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     @atomic

@@ -9,17 +9,6 @@ class SigninSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
 
-    def signin(self):
-        user = ServiceUser.objects.filter(username=self.data.get('username')).first()
-        if user is None:
-            raise UserException.UserNotFoundError
-
-        if not check_password(self.data.get('password'), user.password):
-            raise UserException.UserNotFoundError
-
-        token = TokenObtainPairSerializer.get_token(user)
-        return token
-
 
 class ServiceUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,8 +23,7 @@ class ServiceUserSerializer(serializers.ModelSerializer):
         if len(validated_data['password']) <= 4:
             return Response({"error": "Password too short"}, status=status.HTTP_400_BAD_REQUEST)
 
-        ServiceUser.objects.create_user(
+        return ServiceUser.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password']
         )
-        return validated_data
