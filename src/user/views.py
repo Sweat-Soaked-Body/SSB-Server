@@ -1,36 +1,32 @@
+from django.contrib.auth import authenticate, login, logout
 from django.db.transaction import atomic
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework import status
-from django.conf import settings
-from datetime import datetime
 
-<<<<<<< Updated upstream
-from user.serializers import ServiceUserSerializer, SigninSerializer
-=======
 from core.authentications import CsrfExemptSessionAuthentication
-from .exception import UserException
-from .serializers import ServiceUserSerializer, SigninSerializer
->>>>>>> Stashed changes
+from user.exception import UserException
+from user.serializers import ServiceUserSerializer, SigninSerializer
 
 
 class SigninView(APIView):
-    authentication_classes = []
+    authentication_classes = [CsrfExemptSessionAuthentication]
+    permission_classes = [AllowAny]
 
     def post(self, request: Request) -> Response:
         serializer = SigninSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        token = serializer.signin()
-        response = Response(status=status.HTTP_200_OK)
-        exp = datetime.now()+settings.JWT_ACCESS_EXP
-        response.set_cookie('access', str(token.access_token), expires=exp, httponly=True, secure=True)
-        return response
+        if not (user := authenticate(request, **serializer.validated_data)):
+            raise UserException.UserNotFoundError
+        login(request, user)
+        return Response(status=status.HTTP_200_OK)
 
 
 class SignupView(APIView):
-    authentication_classes = []
+    authentication_classes = [CsrfExemptSessionAuthentication]
+    permission_classes = [AllowAny]
 
     @atomic
     def post(self, request: Request) -> Response:
@@ -45,6 +41,5 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request: Request) -> Response:
-        response = Response(status=status.HTTP_200_OK)
-        response.delete_cookie('access')
-        return response
+        logout(request)
+        return Response(status=status.HTTP_200_OK)

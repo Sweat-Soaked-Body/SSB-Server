@@ -4,19 +4,13 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-<<<<<<< Updated upstream
+from core.authentications import CsrfExemptSessionAuthentication
 from exercise.models import Exercise, Category
 from exercise.serializers import ExerciseSerializer, CategorySerializer
-from user.authentication import CookieBasedJWTAuthentication
-=======
-from core.authentications import CsrfExemptSessionAuthentication
-from .models import Exercise, Category
-from .serializers import ExerciseSerializer, CategorySerializer
->>>>>>> Stashed changes
 
 
 class ExerciseView(APIView):
-    authentication_classes = [CookieBasedJWTAuthentication]
+    authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
@@ -30,7 +24,7 @@ class ExerciseView(APIView):
 
 
 class CategoryView(APIView):
-    authentication_classes = [CookieBasedJWTAuthentication]
+    authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
