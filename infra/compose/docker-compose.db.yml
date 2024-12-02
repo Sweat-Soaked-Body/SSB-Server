@@ -12,7 +12,8 @@ services:
       POSTGRES_USER: ssb
       POSTGRES_PASSWORD: ssb
     ports:
-      - "5432:5432"
+      - "1234:5432"
+
 
 volumes:
   ssb-postgres:

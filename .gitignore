@@ -382,7 +382,3 @@ db*
 *.env
 
 .DS_Store
-
-.idea
-
-poetry.lock

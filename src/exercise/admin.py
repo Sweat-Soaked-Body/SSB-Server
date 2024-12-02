@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from exercise.models import Exercise, Category
+from .models import Exercise, Category
 
 
 admin.site.register(Exercise)
