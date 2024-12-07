@@ -35,5 +35,14 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 
+  redis:
+    container_name: bigbro-redis
+    image: redis:6
+    restart: always
+    volumes:
+      - bigbro-redis:/data
+    ports:
+      - "6379:6379"
+
 volumes:
   postgres:
