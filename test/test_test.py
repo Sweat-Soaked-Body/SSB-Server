@@ -3,4 +3,4 @@ def test_add_numbers():
     b = 5
     c = a + b
 
-    assert c == 6
+    assert c == 8

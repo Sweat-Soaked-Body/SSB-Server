@@ -1,30 +1,4 @@
 services:
-  nginx:
-    container_name: nginx
-    image: nginx:latest
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-    depends_on:
-      - web
-      - postgres
-
-  web:
-    container_name: web
-    build:
-      dockerfile: Dockerfile
-      context: .
-    env_file:
-      - .env
-    command: [
-      "/bin/sh", "-c",
-      "poetry run python src/manage.py migrate && 
-      poetry run gunicorn --chdir src --bind 0.0.0.0:8000 core.wsgi:application"
-    ]
-    depends_on:
-      - postgres
-
   postgres:
     container_name: postgres
     image: postgres:16
@@ -40,9 +14,10 @@ services:
     image: redis:6
     restart: always
     volumes:
-      - bigbro-redis:/data
+      - bigbro-redis:/var/lib/redis/data
     ports:
       - "6379:6379"
 
 volumes:
   postgres:
+  redis:
