@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = [ '127.0.0.1', 'localhost', 'api.gsm-ssb.shop' ] \
-                    + os.environ.get('ALLOWED_HOSTS')
+                    + os.environ.get('ALLOWED_HOSTS', '8.8.8.8')
 
 # Application definition
 INSTALLED_APPS = [
