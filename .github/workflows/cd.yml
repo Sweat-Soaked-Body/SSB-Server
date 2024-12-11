@@ -23,4 +23,5 @@ jobs:
           script: |
             cd SSB-Server
             git pull origin main
-            docker compose up -d
+            docker-compose down
+            docker-compose up -d --build
