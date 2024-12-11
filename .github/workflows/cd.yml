@@ -23,4 +23,4 @@ jobs:
           script: |
             cd SSB-Server
             git pull origin main
-            docker-compose up --build -d
+            docker-compose up --build -d --force-recreate
