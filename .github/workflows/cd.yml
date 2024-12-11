@@ -21,4 +21,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             git pull origin main
+            cd SSB-Server
             docker-compose up --build -d
