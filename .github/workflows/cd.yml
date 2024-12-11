@@ -20,6 +20,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            git pull origin main
             cd SSB-Server
+            git pull origin main
             docker-compose up --build -d
