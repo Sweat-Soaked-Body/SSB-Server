@@ -36,11 +36,11 @@ services:
       POSTGRES_PASSWORD: postgres
 
   redis:
-    container_name: bigbro-redis
+    container_name: redis
     image: redis:6
     restart: always
     volumes:
-      - bigbro-redis:/data
+      - redis:/data
     ports:
       - "6379:6379"
 
