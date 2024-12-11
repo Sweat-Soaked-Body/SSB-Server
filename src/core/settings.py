@@ -28,11 +28,10 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [ '127.0.0.1', 'localhost', 'api.gsm-ssb.shop' ]
-
+ALLOWED_HOSTS = [ '127.0.0.1', 'localhost', 'api.gsm-ssb.shop' ] \
+                    + os.environ.get('ALLOWED_HOSTS')
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
