@@ -24,4 +24,5 @@ urlpatterns = [
     path('profile', include('userprofile.urls')),
     path('exercise', include('exercise.urls')),
     path('routine', include('routine.urls')),
+    path('food', include('food.urls')),
 ]
