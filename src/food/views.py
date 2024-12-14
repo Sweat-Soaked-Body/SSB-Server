@@ -15,7 +15,7 @@ class FoodView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
-        food = Food.objects.filter(service_user=request.user)
+        food = Food.objects.all()
         serializer = FoodSerializer(food, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -25,17 +25,3 @@ class FoodView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(service_user=request.user)
         return Response(status=status.HTTP_201_CREATED)
-
-    @atomic
-    def put(self, request: Request, pk: int) -> Response:
-        food = Food.objects.filter(id=pk, service_user=request.user).first()
-        serializer = FoodSerializer(food, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    @atomic
-    def delete(self, request: Request, pk: int) -> Response:
-        food = Food.objects.filter(id=pk, service_user=request.user)
-        food.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
