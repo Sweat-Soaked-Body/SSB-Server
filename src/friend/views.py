@@ -18,8 +18,7 @@ class FriendView(APIView):
     # 내 친구 조회 API
     def get(self, request: Request) -> Response:
         friend = Friend.objects.filter(
-            Q(from_user=request.user) |
-            Q(to_user=request.user)
+            Q(from_user=request.user) | Q(to_user=request.user)
         )
         serializer = FriendSerializer(friend, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -35,6 +34,9 @@ class FriendView(APIView):
     # 친구 삭제 API
     @atomic
     def delete(self, request: Request, pk: int) -> Response:
-        friend = Friend.objects.filter(id=pk)
+        friend = Friend.objects.filter(
+            Q(id=pk) &
+            (Q(from_user=request.user) | Q(to_user=request.user))
+        )
         friend.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
