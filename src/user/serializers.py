@@ -19,10 +19,12 @@ class ServiceUserSerializer(serializers.ModelSerializer):
             'password': {'write_only': True},
         }
 
-    def create(self, validated_data):
-        if len(validated_data['password']) <= 4:
-            return Response({"error": "Password too short"}, status=status.HTTP_400_BAD_REQUEST)
+    def validate(self, data):
+        if len(data['password']) <= 4:
+            raise UserException.PasswordIsShortError
+        return data
 
+    def create(self, validated_data):
         return ServiceUser.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password']

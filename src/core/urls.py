@@ -25,4 +25,5 @@ urlpatterns = [
     path('exercise', include('exercise.urls')),
     path('routine', include('routine.urls')),
     path('food', include('food.urls')),
+    path('friend', include('friend.urls')),
 ]
