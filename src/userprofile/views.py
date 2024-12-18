@@ -16,10 +16,3 @@ class ServiceUserProfileView(APIView):
         profile = ServiceUserProfile.objects.filter(service_user=request.user).first()
         serializer = ServiceUserProfileSerializer(profile)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-    @atomic
-    def post(self, request: Request) -> Response:
-        serializer = ServiceUserProfileSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(service_user=request.user)
-        return Response(status=status.HTTP_201_CREATED)
