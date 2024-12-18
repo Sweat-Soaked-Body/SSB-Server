@@ -17,6 +17,8 @@ class Category(models.Model):
 class Exercise(models.Model):
     name = models.CharField(max_length=13)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, related_name='exercises')
+    service_user = models.ForeignKey(ServiceUser, on_delete=models.CASCADE, related_name='exercises')
+
 
     class Meta:
         db_table = 'exercise'
