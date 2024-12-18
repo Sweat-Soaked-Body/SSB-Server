@@ -40,5 +40,6 @@ class SignupSerializer(serializers.Serializer):
             sex=validated_data.get('sex'),
             age=validated_data.get('age'),
             weight=validated_data.get('weight'),
+            daily_calorie=validated_data.get('weight') * 35,
         )
         return profile
