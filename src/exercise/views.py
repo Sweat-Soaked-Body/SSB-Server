@@ -15,13 +15,30 @@ class ExerciseView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
-        exercise = Exercise.objects.all()
+        exercise = Exercise.objects.filter(service_user=request.user)
         serializer = ExerciseSerializer(exercise, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @atomic
     def post(self, request: Request) -> Response:
-        # Todo
-        pass
+        serializer = ExerciseSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(service_user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @atomic
+    def put(self, request: Request, pk: int) -> Response:
+        exercise = Exercise.objects.filter(id=pk, service_user=request.user)
+        serializer = ExerciseSerializer(exercise, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @atomic
+    def delete(self, request: Request, pk: int) -> Response:
+        exercise = Exercise.objects.filter(id=pk, service_user=request.user)
+        exercise.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CategoryView(APIView):
