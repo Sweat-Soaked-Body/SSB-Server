@@ -8,7 +8,7 @@ from rest_framework import status
 
 from core.authentications import CsrfExemptSessionAuthentication
 from user.exception import UserException
-from user.serializers import ServiceUserSerializer, SigninSerializer
+from user.serializers import SigninSerializer, SignupSerializer
 
 
 class SigninView(APIView):
@@ -30,7 +30,7 @@ class SignupView(APIView):
 
     @atomic
     def post(self, request: Request) -> Response:
-        serializer = ServiceUserSerializer(data=request.data)
+        serializer = SignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(status=status.HTTP_201_CREATED)
