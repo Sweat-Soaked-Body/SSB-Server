@@ -11,7 +11,7 @@ class UserSex(models.TextChoices):
 
 class ServiceUserProfile(models.Model):
     service_user = models.OneToOneField(ServiceUser, on_delete=models.CASCADE, related_name='profile')
-    name = models.CharField(max_length=8)
+    name = models.CharField(max_length=8, unique=True)
     sex = models.CharField(choices=UserSex)
     age = models.PositiveSmallIntegerField()
     weight = models.PositiveSmallIntegerField()

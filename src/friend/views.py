@@ -7,8 +7,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from core.authentications import CsrfExemptSessionAuthentication
+from friend.exception import FriendException
 from friend.models import Friend
-from friend.serializer import FriendSerializer, FriendListSerializer
+from friend.serializer import FriendListSerializer, AddFriendSerializer
+from userprofile.models import ServiceUserProfile
 
 
 class FriendView(APIView):
@@ -26,17 +28,21 @@ class FriendView(APIView):
     # 친구 추가 API
     @atomic
     def post(self, request: Request) -> Response:
-        serializer = FriendSerializer(data=request.data)
+        serializer = AddFriendSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         serializer.save(from_user=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_201_CREATED)
 
     # 친구 삭제 API
     @atomic
-    def delete(self, request: Request, pk: int) -> Response:
+    def delete(self, request: Request, name: str) -> Response:
+        user = ServiceUserProfile.objects.filter(name=name).first()
+        if not user:
+            raise FriendException.UserNotFound
+
         friend = Friend.objects.filter(
-            Q(id=pk) &
-            (Q(from_user=request.user) | Q(to_user=request.user))
+            (Q(from_user=request.user) & Q(to_user=user.service_user.id)) |
+            (Q(from_user=user.service_user.id) & Q(to_user=request.user))
         )
         friend.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
