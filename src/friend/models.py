@@ -9,3 +9,5 @@ class Friend(models.Model):
 
     class Meta:
         db_table = 'friend'
+
+        unique_together = (('from_user', 'to_user'),)
