@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 from core.authentications import CsrfExemptSessionAuthentication
 from friend.models import Friend
-from friend.serializer import FriendSerializer
+from friend.serializer import FriendSerializer, FriendListSerializer
 
 
 class FriendView(APIView):
@@ -19,8 +19,8 @@ class FriendView(APIView):
     def get(self, request: Request) -> Response:
         friend = Friend.objects.filter(
             Q(from_user=request.user) | Q(to_user=request.user)
-        )
-        serializer = FriendSerializer(friend, many=True)
+        ).prefetch_related('from_user', 'to_user')
+        serializer = FriendListSerializer(friend, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # 친구 추가 API
