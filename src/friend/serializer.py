@@ -6,22 +6,6 @@ from friend.models import Friend
 from userprofile.models import ServiceUserProfile
 
 
-class FriendSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Friend
-        fields = '__all__'
-
-        extra_kwargs = {
-            'from_user': {
-                'required': False,
-                'write_only': True,
-            },
-            'to_user': {
-                'write_only': True,
-            }
-        }
-
-
 class FriendListSerializer(serializers.Serializer):
     friend = serializers.SerializerMethodField()
 

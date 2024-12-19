@@ -9,8 +9,7 @@ from rest_framework.views import APIView
 from core.authentications import CsrfExemptSessionAuthentication
 from friend.exception import FriendException
 from friend.models import Friend
-from friend.serializer import FriendSerializer, FriendListSerializer, AddFriendSerializer
-from user.models import ServiceUser
+from friend.serializer import FriendListSerializer, AddFriendSerializer
 from userprofile.models import ServiceUserProfile
 
 
