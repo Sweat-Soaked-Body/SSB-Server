@@ -15,6 +15,7 @@ class ServiceUserProfile(models.Model):
     sex = models.CharField(choices=UserSex)
     age = models.PositiveSmallIntegerField()
     weight = models.PositiveSmallIntegerField()
+    height = models.PositiveSmallIntegerField(null=True)
     daily_calorie = models.PositiveSmallIntegerField(null=True, blank=False, default=2500)
 
     created_at = models.DateTimeField(auto_now_add=True)

@@ -18,6 +18,7 @@ class SignupSerializer(serializers.Serializer):
     sex = serializers.ChoiceField(choices=UserSex.choices)
     age = serializers.IntegerField()
     weight = serializers.IntegerField()
+    height = serializers.IntegerField()
 
     def validate(self, data):
         if len(data['password']) <= 4:
@@ -40,6 +41,7 @@ class SignupSerializer(serializers.Serializer):
             sex=validated_data.get('sex'),
             age=validated_data.get('age'),
             weight=validated_data.get('weight'),
+            height=validated_data.get('height'),
             daily_calorie=validated_data.get('weight') * 35,
         )
         return profile
