@@ -15,8 +15,8 @@ class ExerciseView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
-        exercise = Exercise.objects.filter(service_user=request.user)
-        serializer = ExerciseSerializer(exercise, many=True)
+        exercise = Exercise.objects.filter(service_user=request.user).prefetch_related('exercise_like')
+        serializer = ExerciseSerializer(exercise, many=True, context={'request': request})  # 콘텍스트를 시리얼라이저에 전달
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @atomic
@@ -28,7 +28,7 @@ class ExerciseView(APIView):
 
     @atomic
     def put(self, request: Request, pk: int) -> Response:
-        exercise = Exercise.objects.filter(id=pk, service_user=request.user)
+        exercise = Exercise.objects.filter(id=pk, service_user=request.user).first()
         serializer = ExerciseSerializer(exercise, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
