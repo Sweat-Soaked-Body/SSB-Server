@@ -21,7 +21,7 @@ class ExerciseView(APIView):
 
     @atomic
     def post(self, request: Request) -> Response:
-        serializer = ExerciseSerializer(data=request.data)
+        serializer = ExerciseSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         serializer.save(service_user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
