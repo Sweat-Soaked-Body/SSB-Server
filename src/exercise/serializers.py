@@ -8,6 +8,10 @@ class ExerciseSerializer(serializers.ModelSerializer):
         model = Exercise
         fields = '__all__'
 
+        extra_kwargs = {
+            'service_user': {'required': False},
+        }
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
