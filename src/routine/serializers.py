@@ -10,18 +10,25 @@ class PatchSetsSerializer(serializers.ModelSerializer):
 
 
 class SetsSerializer(serializers.ModelSerializer):
+    set = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = Set
-        fields = ('id', 'routine', 'weight', 'count', 'time', 'status')
+        fields = ('routine', 'weight', 'count', 'min', 'sec', 'status', 'set')
 
         extra_kwargs = {
             'routine' : {'required': False},
             'status' : {'required': False},
         }
 
+    def get_set(self, obj):
+        all_sets = self.context.get('all_sets')
+        return all_sets.index(obj) + 1
+
 
 class RoutineSerializer(serializers.ModelSerializer):
-    sets = SetsSerializer(many=True)
+    sets = SetsSerializer(many=True, write_only=True)
+    sets = serializers.SerializerMethodField(read_only=True)
     date = serializers.DateField(format='%Y-%m-%d')
 
     class Meta:
@@ -29,7 +36,7 @@ class RoutineSerializer(serializers.ModelSerializer):
         fields = ('id', 'service_user', 'exercise', 'sets', 'date')
 
         extra_kwargs = {
-            'service_user': {'required': False},
+            'service_user': {'required': False, 'write_only': True},
         }
 
     def create(self, validated_data):
@@ -45,3 +52,8 @@ class RoutineSerializer(serializers.ModelSerializer):
 
         Set.objects.bulk_create(set_objs)
         return validated_data
+
+    def get_sets(self, obj):
+        sets = obj.sets.filter().order_by('id')
+        context = {'all_sets': list(sets)}
+        return SetsSerializer(sets, many=True, context=context).data
