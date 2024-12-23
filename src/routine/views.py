@@ -29,11 +29,6 @@ class RoutineView(APIView):
         return Response(status=status.HTTP_201_CREATED)
 
     @atomic
-    def put(self, request: Request, pk: int) -> Response:
-        # Todo
-        pass
-
-    @atomic
     def delete(self, request: Request, pk: int) -> Response:
         if not (routine:=Routine.objects.filter(pk=pk, service_user=request.user).first()):
             raise RoutineException.RoutineNotFound
@@ -44,6 +39,14 @@ class RoutineView(APIView):
 class SetView(APIView):
     authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
+
+    @atomic
+    def put(self, request: Request, pk: int) -> Response:
+        sets = Set.objects.filter(id=pk, routine__service_user=request.user).first()
+        serializer = SetsSerializer(sets, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_200_OK)
 
     @atomic
     def delete(self, request: Request, pk: int) -> Response:
