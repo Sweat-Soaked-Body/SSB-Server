@@ -8,7 +8,7 @@ from rest_framework import status
 from core.authentications import CsrfExemptSessionAuthentication
 from routine.exception import RoutineException, SetsException
 from routine.models import Routine, Set
-from routine.serializers import RoutineSerializer, SetsSerializer, PatchSetsSerializer
+from routine.serializers import RoutineListSerializer, SetsSerializer, RoutineUploadSerializer
 
 
 class RoutineView(APIView):
@@ -18,15 +18,20 @@ class RoutineView(APIView):
     def get(self, request: Request) -> Response:
         routine = Routine.objects.filter(service_user=request.user)\
             .prefetch_related('sets')
-        serializer = RoutineSerializer(routine, many=True)
+        serializer = RoutineListSerializer(routine, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @atomic
     def post(self, request: Request) -> Response:
-        serializer = RoutineSerializer(data=request.data)
+        serializer = RoutineUploadSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(service_user=request.user)
         return Response(status=status.HTTP_201_CREATED)
+
+    @atomic
+    def put(self, request: Request, pk: int) -> Response:
+        # Todo
+        pass
 
     @atomic
     def delete(self, request: Request, pk: int) -> Response:
@@ -41,26 +46,8 @@ class SetView(APIView):
     permission_classes = [IsAuthenticated]
 
     @atomic
-    def post(self, request: Request, pk: int) -> Response:
-        if not (routine:=Routine.objects.filter(pk=pk, service_user=request.user).first()):
-            raise RoutineException.RoutineNotFound
-        serializer = SetsSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(routine=routine)
-        return Response(status=status.HTTP_201_CREATED)
-
-    @atomic
-    def patch(self, request: Request, routine_pk: int, sets_pk: int) -> Response:
-        if not (sets:=Set.objects.filter(pk=sets_pk, routine__service_user=request.user, routine_id=routine_pk).first()):
-            raise SetsException.SetsNotFound
-        serializer = PatchSetsSerializer(sets, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    @atomic
-    def delete(self, request: Request, routine_pk: int, sets_pk: int) -> Response:
-        if not (sets:=Set.objects.filter(pk=sets_pk, routine__service_user=request.user, routine_id=routine_pk).first()):
+    def delete(self, request: Request, pk: int) -> Response:
+        if not (sets:=Set.objects.filter(id=pk, routine__service_user=request.user).first()):
             raise SetsException.SetsNotFound
         sets.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
