@@ -28,7 +28,7 @@ class FoodView(APIView):
 
     @atomic
     def put(self, request: Request, pk: int) -> Response:
-        food = Food.objects.filter(id=pk, service_user=request.user)
+        food = Food.objects.filter(id=pk, service_user=request.user).first()
         serializer = FoodSerializer(food, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(service_user=request.user)
