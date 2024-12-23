@@ -9,4 +9,5 @@ class FoodSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             'service_user': {'required': False},
+            'weight': {'required': False},
         }
