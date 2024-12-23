@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'exercise',
     'routine',
     'food',
-    'friend'
+    'friend',
+    'diet'
 ]
 
 MIDDLEWARE = [
