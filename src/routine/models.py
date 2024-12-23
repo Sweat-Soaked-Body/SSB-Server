@@ -26,7 +26,8 @@ class Set(models.Model):
     weight = models.PositiveSmallIntegerField()
 
     count = models.PositiveSmallIntegerField(null=True, blank=True)
-    time = models.PositiveSmallIntegerField(null=True, blank=True)
+    min = models.PositiveSmallIntegerField(null=True, blank=True)
+    sec = models.PositiveSmallIntegerField(null=True, blank=True)
 
     status = models.CharField(choices=SetStatus.choices, default=SetStatus.UNFINISHED)
 
