@@ -16,6 +16,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
 
+        room = Room.objects.filter(id=self.room_name).first()
+        if not room:
+            raise RoomException.RoomNotFound
+
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -57,7 +61,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def save_message(self, user, message, room_name):
         room = Room.objects.filter(id=room_name).first()
         if not room:
-            raise RoomException.RoomNotFoundß
+            raise RoomException.RoomNotFound
 
         Message.objects.create(
             room=room,
