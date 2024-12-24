@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [ '127.0.0.1', 'localhost', 'api.gsm-ssb.shop' ]
 
 # Application definition
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,13 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # add-on
     'rest_framework',
+    'channels',
     # apps
     'user',
     'userprofile',
     'exercise',
     'routine',
     'food',
-    'friend'
+    'friend',
+    'diet',
+    'chat'
 ]
 
 MIDDLEWARE = [
@@ -112,6 +116,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+ASGI_APPLICATION = "core.asgi.application"
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -136,6 +142,15 @@ CACHES = {
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [(os.environ.get('REDIS_HOST'), 6379)],
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

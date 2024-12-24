@@ -11,6 +11,24 @@ import os
 
 from django.core.asgi import get_asgi_application
 
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
 
-application = get_asgi_application()
+django_asgi_application = get_asgi_application()
+
+
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+
+import chat.routing
+
+application = ProtocolTypeRouter({
+    # HTTP 요청은 기본 ASGI 애플리케이션으로 처리
+    "http": django_asgi_application,
+    # WebSocket 요청은 Channels로 처리
+    "websocket": AuthMiddlewareStack(
+        URLRouter(
+            chat.routing.websocket_urlpatterns  # WebSocket 라우팅 경로
+        )
+    ),
+})

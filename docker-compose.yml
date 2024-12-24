@@ -20,7 +20,7 @@ services:
     command: [
       "/bin/sh", "-c",
       "poetry run python src/manage.py migrate && 
-      poetry run gunicorn --chdir src --bind 0.0.0.0:8000 core.wsgi:application"
+      poetry run daphne -d 0.0.0.0 -p 8000 core.wsgi:application"
     ]
     depends_on:
       - postgres
