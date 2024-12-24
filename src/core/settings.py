@@ -152,6 +152,10 @@ CHANNEL_LAYERS = {
     },
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://api.gsm-ssb.shop',
+]
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
