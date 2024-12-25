@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/asgi/
 
 import os
 
+
 from django.core.asgi import get_asgi_application
 
 
@@ -22,13 +23,13 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 
 import chat.routing
 
+
 application = ProtocolTypeRouter({
-    # HTTP 요청은 기본 ASGI 애플리케이션으로 처리
-    "http": django_asgi_application,
-    # WebSocket 요청은 Channels로 처리
-    "websocket": AuthMiddlewareStack(
+    'http': django_asgi_application,
+
+    'websocket': AuthMiddlewareStack(
         URLRouter(
-            chat.routing.websocket_urlpatterns  # WebSocket 라우팅 경로
+            chat.routing.websocket_urlpatterns
         )
     ),
 })
