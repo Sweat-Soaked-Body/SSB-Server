@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'food',
     'friend',
     'diet',
-    'chat'
+    'chat',
+    'chain'
 ]
 
 MIDDLEWARE = [
@@ -218,3 +219,4 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+OPENAI_KEY = os.environ.get("OPENAI_KEY")
