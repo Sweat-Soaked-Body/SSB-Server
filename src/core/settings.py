@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'food',
     'friend',
     'diet',
-    'chat'
+    'chat',
+    'chain'
 ]
 
 MIDDLEWARE = [
@@ -114,7 +115,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+# WSGI_APPLICATION = 'core.wsgi.application'
 
 ASGI_APPLICATION = "core.asgi.application"
 
@@ -151,6 +152,10 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://api.gsm-ssb.shop',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -214,3 +219,4 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+OPENAI_KEY = os.environ.get("OPENAI_KEY")

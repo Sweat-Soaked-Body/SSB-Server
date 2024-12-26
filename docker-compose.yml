@@ -19,8 +19,9 @@ services:
       - .env
     command: [
       "/bin/sh", "-c",
-      "poetry run python src/manage.py migrate && 
-      poetry run daphne -d 0.0.0.0 -p 8000 core.wsgi:application"
+      "cd src/ &&
+      poetry run python manage.py migrate &&
+      poetry run daphne -b 0.0.0.0 -p 8000 core.asgi:application"
     ]
     depends_on:
       - postgres

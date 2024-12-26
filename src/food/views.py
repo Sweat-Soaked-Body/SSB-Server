@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from core.authentications import CsrfExemptSessionAuthentication
 from food.models import Food
-from food.serializer import FoodSerializer
+from food.serializer import FoodSerializer, FoodAnalSerializer
 
 
 class FoodView(APIView):
@@ -39,3 +39,14 @@ class FoodView(APIView):
         food = Food.objects.filter(id=pk, service_user=request.user).first()
         food.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class FoodAnalView(APIView):
+    authentication_classes = [CsrfExemptSessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request: Request) -> Response:
+        serializer = FoodAnalSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        anal = serializer.anal()
+        return Response(anal, status=status.HTTP_200_OK)
