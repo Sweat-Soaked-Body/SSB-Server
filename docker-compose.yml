@@ -6,6 +6,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - ~/.log/nginx:/var/log/nginx
     depends_on:
       - web
       - postgres
