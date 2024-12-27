@@ -22,7 +22,7 @@ from chat.consumers import ChatConsumer
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('upload', include('storage.urls')),
-    re_path(r'/chat/(?P<room_name>\w+)', ChatConsumer.as_asgi()),
+    re_path(r'/ws/chat/(?P<room_name>\w+)', ChatConsumer.as_asgi()),
 
     path('auth', include('user.urls')),
     path('profile', include('userprofile.urls')),
