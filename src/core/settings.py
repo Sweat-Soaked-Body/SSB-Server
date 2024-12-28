@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # add-on
     'rest_framework',
     'channels',
+    'django_prometheus',
     # apps
     'user',
     'userprofile',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'core.middleware.HealthCheckMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -63,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_prometheus.middleware.PrometheusAfterMiddleware'
 ]
 
 REST_FRAMEWORK = {
@@ -88,11 +91,6 @@ LOGGING = {
             "level": "DEBUG",
         },
     },
-}
-
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
 }
 
 ROOT_URLCONF = 'core.urls'
