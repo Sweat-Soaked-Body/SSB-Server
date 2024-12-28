@@ -16,7 +16,8 @@ class RoutineView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
-        routine = Routine.objects.filter(service_user=request.user)\
+        date = request.GET.get('date')
+        routine = Routine.objects.filter(service_user=request.user, date=date)\
             .prefetch_related('sets')
         serializer = RoutineListSerializer(routine, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
