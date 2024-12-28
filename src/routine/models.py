@@ -6,7 +6,7 @@ from user.models import ServiceUser
 class Routine(models.Model):
     service_user = models.ForeignKey(ServiceUser, on_delete=models.CASCADE, related_name='routines')
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE, related_name='routines')
-    date = models.DateField(null=True, blank=False)
+    date = models.DateField(null=True, blank=False, auto_now_add=True)
 
     class Meta:
         db_table = 'routines'
