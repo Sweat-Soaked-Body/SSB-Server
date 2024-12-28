@@ -9,4 +9,3 @@ class Diet(models.Model):
 
     class Meta:
         db_table = 'diet'
-        unique_together = (('service_user', 'date'),)
