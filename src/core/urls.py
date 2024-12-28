@@ -17,9 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from chat.consumers import ChatConsumer
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('upload', include('storage.urls')),
+    path('ws/chat/<str:room_name>', ChatConsumer.as_asgi()),
 
     path('auth', include('user.urls')),
     path('profile', include('userprofile.urls')),
@@ -27,4 +30,5 @@ urlpatterns = [
     path('routine', include('routine.urls')),
     path('food', include('food.urls')),
     path('friend', include('friend.urls')),
+    path('diet', include('diet.urls')),
 ]
