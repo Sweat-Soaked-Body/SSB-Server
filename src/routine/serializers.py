@@ -20,6 +20,16 @@ class SetsSerializer(serializers.ModelSerializer):
         return all_sets.index(obj) + 1
 
 
+class RoutineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Routine
+        fields = '__all__'
+
+        extra_kwargs = {
+            'service_user': {'required': False},
+        }
+
+
 class RoutineListSerializer(serializers.ModelSerializer):
     sets = serializers.SerializerMethodField(read_only=True)
     date = serializers.DateField(format='%Y-%m-%d')

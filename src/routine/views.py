@@ -8,7 +8,7 @@ from rest_framework import status
 from core.authentications import CsrfExemptSessionAuthentication
 from routine.exception import RoutineException, SetsException
 from routine.models import Routine, Set
-from routine.serializers import RoutineListSerializer, SetsSerializer, RoutineUploadSerializer
+from routine.serializers import RoutineListSerializer, SetsSerializer, RoutineUploadSerializer, RoutineSerializer
 
 
 class RoutineView(APIView):
@@ -24,7 +24,7 @@ class RoutineView(APIView):
 
     @atomic
     def post(self, request: Request) -> Response:
-        serializer = RoutineUploadSerializer(data=request.data)
+        serializer = RoutineSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(service_user=request.user)
         return Response(status=status.HTTP_201_CREATED)
