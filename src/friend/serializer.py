@@ -1,6 +1,7 @@
 from django.db.models import Q
 from rest_framework import serializers
 
+from chat.models import Room
 from friend.exception import FriendException
 from friend.models import Friend
 from userprofile.models import ServiceUserProfile
@@ -43,7 +44,9 @@ class AddFriendSerializer(serializers.Serializer):
         from_user = validated_data.get('from_user')
         to_user = validated_data.get('name')
 
-        return Friend.objects.create(
+        friend = Friend.objects.create(
             from_user=from_user,
             to_user=ServiceUserProfile.objects.get(name=to_user).service_user
         )
+        Room.objects.create(friend=friend)
+        return friend
