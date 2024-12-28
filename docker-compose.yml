@@ -57,6 +57,7 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus:/prometheus
 
   grafana:
     image: grafana/grafana:latest
@@ -69,7 +70,7 @@ services:
     depends_on:
       - prometheus
     volumes:
-      - grafana_data:/var/lib/grafana
+      - grafana:/var/lib/grafana
 
 volumes:
   postgres:
