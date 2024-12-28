@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from core.authentications import CsrfExemptSessionAuthentication
 from friend.exception import FriendException
 from friend.models import Friend
-from friend.serializer import FriendListSerializer, AddFriendSerializer
+from friend.serializer import AddFriendSerializer, FriendSerializer
 from userprofile.models import ServiceUserProfile
 
 
@@ -22,7 +22,7 @@ class FriendView(APIView):
         friend = Friend.objects.filter(
             Q(from_user=request.user) | Q(to_user=request.user)
         ).prefetch_related('from_user', 'to_user')
-        serializer = FriendListSerializer(friend, context={'request': request})
+        serializer = FriendSerializer(friend, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # 친구 추가 API

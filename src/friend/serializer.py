@@ -6,17 +6,20 @@ from friend.models import Friend
 from userprofile.models import ServiceUserProfile
 
 
-class FriendListSerializer(serializers.Serializer):
+class FriendSerializer(serializers.ModelSerializer):
     friend = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Friend
+        fields = ('id', 'friend')
 
     def get_friend(self, obj):
         request = self.context['request']
-        return [
-            str(i.from_user.profile.name)
-            if i.to_user == request.user
-            else str(i.to_user.profile.name)
-            for i in obj
-        ]
+
+        return \
+            str(obj.from_user.profile.name) \
+            if obj.to_user == request.user \
+            else str(obj.to_user.profile.name)
 
 
 class AddFriendSerializer(serializers.Serializer):
