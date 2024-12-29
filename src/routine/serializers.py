@@ -36,6 +36,7 @@ class RoutineSerializer(serializers.ModelSerializer):
 class RoutineListSerializer(serializers.ModelSerializer):
     sets = serializers.SerializerMethodField(read_only=True)
     date = serializers.DateField(format='%Y-%m-%d')
+    exercise = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Routine
@@ -49,3 +50,6 @@ class RoutineListSerializer(serializers.ModelSerializer):
         sets = obj.sets.filter().order_by('id')
         context = {'all_sets': list(sets)}
         return SetsSerializer(sets, many=True, context=context).data
+
+    def get_exercise(self, obj):
+        return obj.exercise.name
