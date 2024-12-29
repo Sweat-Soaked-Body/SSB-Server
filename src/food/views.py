@@ -50,3 +50,14 @@ class FoodAnalView(APIView):
         serializer.is_valid(raise_exception=True)
         anal = serializer.anal()
         return Response(anal, status=status.HTTP_200_OK)
+
+
+class FoodSerchView(APIView):
+    authentication_classes = [CsrfExemptSessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request: Request) -> Response:
+        query = request.GET.get('query')
+        food = Food.objects.filter(name__icontains=query)
+        serializer = FoodSerializer(food, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
