@@ -39,3 +39,13 @@ class DietView(APIView):
         diet = Diet.objects.filter(service_user=request.user, id=pk).first()
         diet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class DietSearchView(APIView):
+    authentication_classes = [CsrfExemptSessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request: Request) -> Response:
+        query = request.GET.get('date')
+        food = Diet.objects.filter(date=query)
+        serializer = DietSerializer(food, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
