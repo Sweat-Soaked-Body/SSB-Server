@@ -21,10 +21,11 @@ class DietSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         date = validated_data.pop('date')
+        type = validated_data.pop('type')
         food = validated_data.pop('food')
         request = self.context.get('request')
 
-        diet = Diet.objects.create(date=date, service_user=request.user)
+        diet = Diet.objects.create(date=date, type=type, service_user=request.user)
 
         foods = []
         for i in food:
