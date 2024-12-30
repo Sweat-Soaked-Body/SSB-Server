@@ -31,9 +31,8 @@ class AddFriendSerializer(serializers.Serializer):
         if not to_friend:
             raise FriendException.UserNotFound
 
-        request = self.context.get('request')
         friend = Friend.objects.filter(
-            Q(from_user=request.user) | Q(to_user=request.user)
+            Q(from_user__profile__name=data['name']) | Q(to_user__profile__name=data['name'])
         ).prefetch_related('from_user', 'to_user')
         if friend:
             raise FriendException.FriendAlreadyExists

@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, Subquery, OuterRef
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
@@ -16,15 +16,18 @@ class MessageView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: Request) -> Response:
-        user = request.GET.get('user')
+
+        # 서브쿼리 - 각 방 기준으로 메시지 조회
+        subquery = Message.objects.filter(
+            room=OuterRef('room'),
+        ).order_by('-timestamp')
+
+        # 서브쿼리 id[:1]에 맞는 메시지 조회
         message = Message.objects.filter(
-            Q(service_user=request.user) &
-            (
-                Q(room__friend__to_user__profile__name=user) |
-                Q(room__friend__from_user__profile__name=user)
-            )
-        ).order_by('-timestamp').first()
+            id=Subquery(subquery.values('id')[:1]),
+        ).order_by('-timestamp')
+
         if not message:
             raise MessageException.MessageNotFoundError
-        serializer = MessageSerializer(message)
+        serializer = MessageSerializer(message, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
