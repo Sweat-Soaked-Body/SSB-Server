@@ -69,6 +69,6 @@ class ExerciseLikeView(APIView):
 
     @atomic
     def delete(self, request: Request, pk: int) -> Response:
-        like = ExerciseLike.objects.filter(id=pk, service_user=request.user).first()
-        like.delete()
+        exercise = Exercise.objects.filter(id=pk).first()
+        exercise.exercise_like.all().delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
