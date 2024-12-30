@@ -31,6 +31,7 @@ urlpatterns = [
     path('food', include('food.urls')),
     path('friend', include('friend.urls')),
     path('diet', include('diet.urls')),
+    path('chat', include('chat.urls')),
 
     path('metrics/', include('django_prometheus.urls'))
 ]
