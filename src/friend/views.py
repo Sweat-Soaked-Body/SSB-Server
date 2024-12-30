@@ -28,7 +28,7 @@ class FriendView(APIView):
     # 친구 추가 API
     @atomic
     def post(self, request: Request) -> Response:
-        serializer = AddFriendSerializer(data=request.data, context={'request': request})
+        serializer = AddFriendSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(from_user=request.user)
         return Response(status=status.HTTP_201_CREATED)
