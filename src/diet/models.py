@@ -17,6 +17,7 @@ class Diet(models.Model):
     service_user = models.ForeignKey(ServiceUser, on_delete=models.CASCADE, related_name='diets')
     date = models.DateField()
     type = models.CharField(max_length=20, choices=DietType.choices, null=True, blank=False)
+    image = models.CharField(max_length=255, null=True, blank=False)
 
     class Meta:
         db_table = 'diet'

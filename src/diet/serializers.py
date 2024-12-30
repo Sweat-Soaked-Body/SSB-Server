@@ -23,9 +23,10 @@ class DietSerializer(serializers.ModelSerializer):
         date = validated_data.pop('date')
         type = validated_data.pop('type')
         food = validated_data.pop('food')
+        image = validated_data.pop('image')
         request = self.context.get('request')
 
-        diet = Diet.objects.create(date=date, type=type, service_user=request.user)
+        diet = Diet.objects.create(date=date, type=type, service_user=request.user, image=image)
 
         foods = []
         for i in food:
@@ -40,7 +41,6 @@ class DietSerializer(serializers.ModelSerializer):
         food = validated_data.pop('food')
 
         instance.date = date
-        print(dir(instance))
         instance.food.all().delete()
 
         foods = []

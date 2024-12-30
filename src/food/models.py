@@ -10,7 +10,6 @@ class Food(models.Model):
     name = models.CharField(max_length=20)
     weight = models.PositiveIntegerField(default=100, blank=True)
     calories = models.PositiveIntegerField()
-    image = models.CharField(max_length=255)
 
     class Meta:
         db_table = 'food'
