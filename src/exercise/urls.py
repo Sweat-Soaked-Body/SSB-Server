@@ -8,4 +8,5 @@ urlpatterns = [
     path('/<int:pk>', ExerciseView.as_view()),
     path('/category', CategoryView.as_view()),
     path('/like', ExerciseLikeView.as_view()),
+    path('/like/<int:pk>', ExerciseLikeView.as_view()),
 ]

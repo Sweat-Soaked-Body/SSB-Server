@@ -66,3 +66,9 @@ class ExerciseLikeView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(service_user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @atomic
+    def delete(self, request: Request, pk: int) -> Response:
+        like = ExerciseLike.objects.filter(id=pk, service_user=request.user).first()
+        like.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
