@@ -1,5 +1,3 @@
-from wsgiref.handlers import format_date_time
-
 from rest_framework import serializers
 
 from diet.models import Diet
