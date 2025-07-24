@@ -55,16 +55,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         }
         await self.send(text_data=json.dumps(data, ensure_ascii=False, default=str))
 
-    @sync_to_async
-    def get_room(self, room_group_name):
-        room = Room.objects.filter(id=room_group_name).first()
+    async def get_room(self, room_group_name):
+        room = await Room.objects.filter(id=room_group_name).afirst()
         if room is None:
             raise RoomException.RoomNotFound
         return room
 
-    @sync_to_async
-    def save_message(self, room, message):
-        Message.objects.create(
+    async def save_message(self, room, message):
+        await Message.objects.acreate(
             room=room,
             service_user=self.scope['user'],
             message=message
